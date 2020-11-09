@@ -17,6 +17,7 @@ const getEntriesGroup = (groupName, pages) =>
 const entries = getEntriesGroup('chapter-2', [
   'draw-rectangle',
   'hello-canvas',
+  'hello-point1',
 ]);
 
 module.exports = {
@@ -38,6 +39,10 @@ module.exports = {
       {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+      {
+        test: /\.(vert|frag)$/i,
+        use: ['raw-loader'],
       },
     ],
   },
