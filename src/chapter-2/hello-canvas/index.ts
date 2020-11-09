@@ -6,11 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     throw new Error('Failed to retrieve the <canvas> element');
   }
 
-  const context = canvas.getContext('webgl');
-  if (!context) {
+  const gl = canvas.getContext('webgl');
+  if (!gl) {
     throw new Error('Failed to get the rendering context for WebGL');
   }
 
-  context.clearColor(0.0, 0.0, 0.0, 1.0);
-  context.clear(context.COLOR_BUFFER_BIT);
+  gl.clearColor(0.0, 0.0, 0.0, 1.0);
+  gl.clear(gl.COLOR_BUFFER_BIT);
 });
