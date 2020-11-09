@@ -3,22 +3,42 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const fs = require('fs');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 /* eslint-enable */
 
-const getEntriesGroup = (groupName, pages) =>
-  pages.map((v) => ({
-    entry: path.resolve(__dirname, 'src', groupName, v, 'index.ts'),
-    template: path.resolve(__dirname, 'src', groupName, v, 'index.html'),
-    htmlFilename: `${groupName}/${v}.html`,
-    chunkName: `${groupName}-${v}`,
-  }));
-const entries = getEntriesGroup('chapter-2', [
-  'draw-rectangle',
-  'hello-canvas',
-  'hello-point1',
-]);
+const findPageDirs = (initialPath, filter) => {
+  const result = [];
+  const fn = (startPath) => {
+    const files = fs.readdirSync(startPath);
+    files.forEach((file) => {
+      const filename = path.join(startPath, file);
+      if (fs.lstatSync(filename).isDirectory()) {
+        fn(filename);
+      } else if (filename.includes(filter)) {
+        result.push(path.dirname(filename).split(path.sep));
+      }
+    });
+  };
+  fn(initialPath);
+
+  return result;
+};
+
+const entries = findPageDirs('./src/pages', 'index.html').map(
+  (pathSegments) => {
+    const normalizedDir = pathSegments.join('_');
+    const lastDir = path.resolve(__dirname, ...pathSegments);
+
+    return {
+      entry: path.resolve(lastDir, 'index.ts'),
+      template: path.resolve(lastDir, 'index.html'),
+      htmlFilename: `${normalizedDir}_index.html`,
+      chunkName: `${normalizedDir}`,
+    };
+  }
+);
 
 module.exports = {
   devServer: {
@@ -55,8 +75,23 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.resolve(__dirname, 'src', 'index.html'),
+      templateContent: `<!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <title>WebGL samples</title>
+          <meta name="viewport" content="width=device-width,initial-scale=1" />
+        </head>
+        <body>
+          <ul>${entries
+            .map(
+              (v) => `<li><a href="${v.htmlFilename}">${v.htmlFilename}</li>`
+            )
+            .join('')}
+          </ul>
+        </body>
+      </html>
+      `,
       chunks: [],
     }),
     ...entries.map(

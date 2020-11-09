@@ -1,6 +1,6 @@
 import 'normalize.css';
 
-import initShaders from '../../init-shaders';
+import initShaders from '../../../init-shaders';
 import VSHADER_SOURCE from './point.vert';
 import FSHADER_SOURCE from './point.frag';
 
