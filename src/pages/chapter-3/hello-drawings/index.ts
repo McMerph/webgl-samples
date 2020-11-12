@@ -38,7 +38,16 @@ const draw = (drawing: string) => {
   if (vertexBuffer === null) {
     throw new Error('Failed to create the buffer object');
   }
-  const vertices = new Float32Array([0.0, 0.5, -0.5, -0.5, 0.5, -0.5]);
+  const vertices = new Float32Array([
+    -0.5,
+    0.5,
+    -0.5,
+    -0.5,
+    0.5,
+    0.5,
+    0.5,
+    -0.5,
+  ]);
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
   const a_Position = gl.getAttribLocation(glProgram, 'a_Position');
@@ -54,6 +63,8 @@ const draw = (drawing: string) => {
     ['LINES', gl.LINES],
     ['LINE_STRIP', gl.LINE_STRIP],
     ['LINE_LOOP', gl.LINE_LOOP],
+    ['QUAD', gl.TRIANGLE_STRIP],
+    ['QUAD_FAN', gl.TRIANGLE_FAN],
   ]);
-  gl.drawArrays(MAPPING.get(drawing) || gl.TRIANGLES, 0, 3);
+  gl.drawArrays(MAPPING.get(drawing) || gl.TRIANGLES, 0, 4);
 };
