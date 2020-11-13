@@ -113,15 +113,12 @@ const drawWithParams = (params: Params) => {
   if (vertexBuffer === null) {
     throw new Error('Failed to create the buffer object');
   }
+  // prettier-ignore
   const vertices = new Float32Array([
-    -0.5,
-    0.5,
-    -0.5,
-    -0.5,
-    0.5,
-    0.5,
-    0.5,
-    -0.5,
+    -0.5, 0.5,
+    -0.5, -0.5,
+    0.5, 0.5,
+    0.5, -0.5,
   ]);
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
