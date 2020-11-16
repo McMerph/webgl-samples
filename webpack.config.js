@@ -64,6 +64,13 @@ module.exports = {
         test: /\.(vert|frag)$/i,
         use: ['raw-loader'],
       },
+      {
+        test: require.resolve('./lib/matrix4/index.js'),
+        loader: 'exports-loader',
+        options: {
+          exports: ['Matrix4'],
+        },
+      },
     ],
   },
   resolve: {

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Rotated triangle (Matrix4)</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+  </head>
+  <body>
+    <select id="select">
+      <option value="TRIANGLES" selected>TRIANGLES</option>
+      <option value="LINES">LINES</option>
+      <option value="LINE_STRIP">LINE_STRIP</option>
+      <option value="LINE_LOOP">LINE_LOOP</option>
+      <option value="QUAD">QUAD</option>
+      <option value="QUAD_FAN">QUAD_FAN</option>
+    </select>
+    <label>
+      translate x:
+      <input
+        type="number"
+        id="translate-x"
+        min="-0.5"
+        max="0.5"
+        step="0.01"
+        value="0"
+      />
+    </label>
+    <label>
+      translate y:
+      <input
+        type="number"
+        id="translate-y"
+        min="-0.5"
+        max="0.5"
+        step="0.01"
+        value="0"
+      />
+    </label>
+    <label>
+      scale x:
+      <input
+        type="number"
+        id="scale-x"
+        min="0.5"
+        max="1.5"
+        step="0.01"
+        value="1.0"
+      />
+    </label>
+    <label>
+      scale y:
+      <input
+        type="number"
+        id="scale-y"
+        min="0.5"
+        max="1.5"
+        step="0.01"
+        value="1.0"
+      />
+    </label>
+    <label>
+      angle:
+      <input type="number" id="angle" min="-180" max="180" step="1" value="0" />
+    </label>
+    <canvas id="webgl" width="400" height="400">
+      Please use a browser that supports "canvas"
+    </canvas>
+  </body>
+</html>
