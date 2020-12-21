@@ -1,8 +1,8 @@
 import 'normalize.css';
 
 import initShaders from '../../../init-shaders';
-import VSHADER_SOURCE from './point.vert';
-import FSHADER_SOURCE from './point.frag';
+import VSHADER_SOURCE from './vert.glsl';
+import FSHADER_SOURCE from './frag.glsl';
 
 const points: [number, number][] = [];
 let draw = false;

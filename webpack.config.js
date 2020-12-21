@@ -61,7 +61,7 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(vert|frag)$/i,
+        test: /\.glsl$/i,
         use: ['raw-loader'],
       },
       {
