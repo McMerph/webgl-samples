@@ -29,7 +29,7 @@ interface GetLocationArgs {
   glProgram: WebGLProgram;
   variableName: string;
 }
-const getAttribLocation = (args: GetLocationArgs) => {
+const getAttribLocation = (args: GetLocationArgs): GLint => {
   const { gl, glProgram, variableName } = args
   const location = gl.getAttribLocation(glProgram, variableName);
   if (location < 0) {
@@ -38,7 +38,7 @@ const getAttribLocation = (args: GetLocationArgs) => {
 
   return location;
 }
-const getUniformLocation = (args: GetLocationArgs) => {
+const getUniformLocation = (args: GetLocationArgs): WebGLUniformLocation => {
   const { gl, glProgram, variableName } = args
   const location = gl.getUniformLocation(glProgram, variableName);
   if (!location) {
@@ -48,7 +48,19 @@ const getUniformLocation = (args: GetLocationArgs) => {
   return location;
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+const loadImage = (src: string): Promise<HTMLImageElement> => new Promise((resolve, reject) => {
+  const image = new Image();
+  image.onload = () => {
+    resolve(image)
+  };
+  image.onerror = () => {
+    reject(`Can't load ${src}`)
+  }
+
+  image.src = src;
+})
+
+document.addEventListener('DOMContentLoaded', async () => {
   const { gl, glProgram } = init()
 
   // prettier-ignore
@@ -81,20 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   const u_Sampler = getUniformLocation({ gl, glProgram, variableName: 'u_Sampler' });
 
-  const image = new Image();
-  image.onload = () => {
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
-    gl.uniform1i(u_Sampler, 0);
+  const image = await loadImage(skyImage)
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.MIRRORED_REPEAT);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
+  gl.uniform1i(u_Sampler, 0);
 
-    gl.clearColor(0, 0, 0, 1);
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-  };
-  image.src = skyImage;
+  gl.clearColor(0, 0, 0, 1);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 });
