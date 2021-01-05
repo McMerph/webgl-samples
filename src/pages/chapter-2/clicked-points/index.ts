@@ -1,6 +1,7 @@
 import 'normalize.css';
 
 import { initShaders } from '../../../init-shaders';
+import { getAttribLocation } from '../../../location';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 
@@ -24,10 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
     fragmentShaderSource: FSHADER_SOURCE,
   });
 
-  const a_Position = gl.getAttribLocation(glProgram, 'a_Position');
-  if (a_Position < 0) {
-    throw new Error('Failed to get the storage location of a_Position');
-  }
+  const a_Position = getAttribLocation({
+    gl,
+    glProgram,
+    variableName: 'a_Position',
+  });
 
   canvas.onmousedown = () => {
     draw = true;
