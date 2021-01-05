@@ -3,32 +3,9 @@ import 'normalize.css';
 import { Matrix4 } from 'matrix4';
 
 import { initWebGl } from '../../../init-web-gl';
+import { getAttribLocation, getUniformLocation } from '../../../location';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
-
-interface GetLocationArgs {
-  gl: WebGLRenderingContext;
-  glProgram: WebGLProgram;
-  variableName: string;
-}
-const getAttribLocation = (args: GetLocationArgs): GLint => {
-  const { gl, glProgram, variableName } = args;
-  const location = gl.getAttribLocation(glProgram, variableName);
-  if (location < 0) {
-    throw new Error(`Failed to get the storage location of ${variableName}`);
-  }
-
-  return location;
-};
-const getUniformLocation = (args: GetLocationArgs): WebGLUniformLocation => {
-  const { gl, glProgram, variableName } = args;
-  const location = gl.getUniformLocation(glProgram, variableName);
-  if (!location) {
-    throw new Error(`Failed to get the storage location of ${variableName}`);
-  }
-
-  return location;
-};
 
 document.addEventListener('DOMContentLoaded', async () => {
   const { gl, glProgram } = initWebGl({

@@ -1,36 +1,13 @@
 import 'normalize.css';
 
-import skyImage from '../../../../resources/img/sky.jpg'
-import circleImage from '../../../../resources/img/circle.gif'
+import skyImage from '../../../../resources/img/sky.jpg';
+import circleImage from '../../../../resources/img/circle.gif';
 
 import { initWebGl } from '../../../init-web-gl';
-import loadImage from '../../../load-image'
+import { getAttribLocation, getUniformLocation } from '../../../location';
+import loadImage from '../../../load-image';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
-
-interface GetLocationArgs {
-  gl: WebGLRenderingContext;
-  glProgram: WebGLProgram;
-  variableName: string;
-}
-const getAttribLocation = (args: GetLocationArgs): GLint => {
-  const { gl, glProgram, variableName } = args
-  const location = gl.getAttribLocation(glProgram, variableName);
-  if (location < 0) {
-    throw new Error(`Failed to get the storage location of ${variableName}`);
-  }
-
-  return location;
-}
-const getUniformLocation = (args: GetLocationArgs): WebGLUniformLocation => {
-  const { gl, glProgram, variableName } = args
-  const location = gl.getUniformLocation(glProgram, variableName);
-  if (!location) {
-    throw new Error(`Failed to get the storage location of ${variableName}`);
-  }
-
-  return location;
-}
 
 document.addEventListener('DOMContentLoaded', async () => {
   const { gl, glProgram } = initWebGl({
@@ -54,11 +31,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   gl.bindBuffer(gl.ARRAY_BUFFER, verticesAndTextureBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, verticesAndTextureCoordinates, gl.STATIC_DRAW);
 
-  const a_Position = getAttribLocation({ gl, glProgram, variableName: 'a_Position' });
+  const a_Position = getAttribLocation({
+    gl,
+    glProgram,
+    variableName: 'a_Position',
+  });
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, FSIZE * 4, 0);
   gl.enableVertexAttribArray(a_Position);
 
-  const a_TexCoord = getAttribLocation({ gl, glProgram, variableName: 'a_TexCoord' });
+  const a_TexCoord = getAttribLocation({
+    gl,
+    glProgram,
+    variableName: 'a_TexCoord',
+  });
   gl.vertexAttribPointer(a_TexCoord, 2, gl.FLOAT, false, FSIZE * 4, FSIZE * 2);
   gl.enableVertexAttribArray(a_TexCoord);
 
@@ -67,10 +52,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!texture0 || !texture1) {
     throw new Error('Failed to create the texture object');
   }
-  const u_Sampler0 = getUniformLocation({ gl, glProgram, variableName: 'u_Sampler0' });
-  const u_Sampler1 = getUniformLocation({ gl, glProgram, variableName: 'u_Sampler1' });
+  const u_Sampler0 = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_Sampler0',
+  });
+  const u_Sampler1 = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_Sampler1',
+  });
 
-  const [image0, image1] = await Promise.all([loadImage(skyImage), loadImage(circleImage)])
+  const [image0, image1] = await Promise.all([
+    loadImage(skyImage),
+    loadImage(circleImage),
+  ]);
 
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
   gl.activeTexture(gl.TEXTURE0);
