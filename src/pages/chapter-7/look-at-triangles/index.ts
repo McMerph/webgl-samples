@@ -3,14 +3,14 @@ import 'normalize.css';
 import { Matrix4 } from 'matrix4';
 
 import { initWebGl } from '../../../utils/init-web-gl';
-import VSHADER_SOURCE from './vert.glsl';
-import FSHADER_SOURCE from './frag.glsl';
+import vertexShaderSource from './vert.glsl';
+import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const { gl, getAttribLocation, getUniformLocation, createBuffer } = initWebGl(
     {
-      vertexShaderSource: VSHADER_SOURCE,
-      fragmentShaderSource: FSHADER_SOURCE,
+      vertexShaderSource,
+      fragmentShaderSource,
     }
   );
 
