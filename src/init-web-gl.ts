@@ -9,16 +9,20 @@ interface InitWebGlOutput {
   glProgram: WebGLProgram;
 }
 
-export const initWebGl = (args: InitWebGlArgs): InitWebGlOutput => {
-  const { vertexShaderSource, fragmentShaderSource } = args;
+export const initWebGl = ({
+  vertexShaderSource,
+  fragmentShaderSource,
+}: InitWebGlArgs): InitWebGlOutput => {
   const canvas = document.getElementById('webgl') as HTMLCanvasElement;
   if (!canvas) {
     throw new Error('Failed to retrieve the <canvas> element');
   }
+
   const gl = canvas.getContext('webgl');
   if (!gl) {
     throw new Error('Failed to get the rendering context for WebGL');
   }
+
   const glProgram = initShaders({
     gl,
     vertexShaderSource,

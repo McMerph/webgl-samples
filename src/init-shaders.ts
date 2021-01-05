@@ -3,8 +3,7 @@ interface LoadShaderArgs {
   type: GLenum;
   source: string;
 }
-const loadShader = (args: LoadShaderArgs): WebGLShader => {
-  const { gl, type, source } = args;
+const loadShader = ({ gl, type, source }: LoadShaderArgs): WebGLShader => {
   const shader = gl.createShader(type);
   if (shader === null) {
     throw new Error('Unable to create shader');
@@ -29,8 +28,7 @@ interface InitShaderArgs {
   fragmentShaderSource: string;
 }
 
-export const initShaders = (args: InitShaderArgs): WebGLProgram => {
-  const { gl, vertexShaderSource, fragmentShaderSource } = args;
+export const initShaders = ({ gl, vertexShaderSource, fragmentShaderSource }: InitShaderArgs): WebGLProgram => {
   const [vertexShader, fragmentShader] = ([
     [gl.VERTEX_SHADER, vertexShaderSource],
     [gl.FRAGMENT_SHADER, fragmentShaderSource],
