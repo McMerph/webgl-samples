@@ -12,6 +12,7 @@ interface InitWebGlOutput {
   getAttribLocation: (variableName: string) => GLint;
   getUniformLocation: (variableName: string) => WebGLUniformLocation;
   createBuffer: () => WebGLBuffer;
+  createTexture: () => WebGLTexture;
 }
 
 export const initWebGl = ({
@@ -49,6 +50,14 @@ export const initWebGl = ({
       }
 
       return buffer;
+    },
+    createTexture: () => {
+      const texture = gl.createTexture();
+      if (texture === null) {
+        throw new Error('Failed to create the texture');
+      }
+
+      return texture;
     },
   };
 };

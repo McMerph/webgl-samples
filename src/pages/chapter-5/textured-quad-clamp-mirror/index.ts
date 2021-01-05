@@ -8,7 +8,13 @@ import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const { gl, getAttribLocation, getUniformLocation, createBuffer } = initWebGl({
+  const {
+    gl,
+    getAttribLocation,
+    getUniformLocation,
+    createBuffer,
+    createTexture,
+  } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
@@ -34,10 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   gl.vertexAttribPointer(a_TexCoord, 2, gl.FLOAT, false, FSIZE * 4, FSIZE * 2);
   gl.enableVertexAttribArray(a_TexCoord);
 
-  const texture = gl.createTexture();
-  if (!texture) {
-    throw new Error('Failed to create the texture object');
-  }
+  const texture = createTexture();
   const u_Sampler = getUniformLocation('u_Sampler');
 
   const image = await loadImage(skyImage);
