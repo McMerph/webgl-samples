@@ -2,7 +2,6 @@ import 'normalize.css';
 import './index.css';
 
 import { initWebGl } from '../../../init-web-gl';
-import { getAttribLocation, getUniformLocation } from '../../../location';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
@@ -64,42 +63,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const translate = (
   gl: WebGLRenderingContext,
-  glProgram: WebGLProgram,
+  getUniformLocation: (variableName: string) => WebGLUniformLocation,
   translateX: number,
   translateY: number
 ): void => {
-  const u_Translation = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_Translation',
-  });
+  const u_Translation = getUniformLocation('u_Translation');
   gl.uniform4f(u_Translation, translateX, translateY, 0.0, 0.0);
 };
 
 const rotate = (
   gl: WebGLRenderingContext,
-  glProgram: WebGLProgram,
+  getUniformLocation: (variableName: string) => WebGLUniformLocation,
   angle: number
 ): void => {
   const radian = (Math.PI * angle) / 180.0;
   const cosB = Math.cos(radian);
   const sinB = Math.sin(radian);
-  const u_CosB = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_CosB',
-  });
-  const u_SinB = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_SinB',
-  });
+  const u_CosB = getUniformLocation('u_CosB');
+  const u_SinB = getUniformLocation('u_SinB');
   gl.uniform1f(u_CosB, cosB);
   gl.uniform1f(u_SinB, sinB);
 };
 
 const drawWithParams = ({ drawing, translateX, translateY, angle }: Params) => {
-  const { gl, glProgram } = initWebGl({
+  const { gl, getAttribLocation, getUniformLocation } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
@@ -117,16 +104,12 @@ const drawWithParams = ({ drawing, translateX, translateY, angle }: Params) => {
   ]);
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-  const a_Position = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Position',
-  });
+  const a_Position = getAttribLocation('a_Position');
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(a_Position);
 
-  translate(gl, glProgram, translateX, translateY);
-  rotate(gl, glProgram, angle);
+  translate(gl, getUniformLocation, translateX, translateY);
+  rotate(gl, getUniformLocation, angle);
 
   gl.clearColor(0, 0, 0, 1);
   gl.clear(gl.COLOR_BUFFER_BIT);

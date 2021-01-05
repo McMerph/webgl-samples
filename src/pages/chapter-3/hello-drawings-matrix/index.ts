@@ -2,7 +2,6 @@ import 'normalize.css';
 import './index.css';
 
 import { initWebGl } from '../../../init-web-gl';
-import { getAttribLocation, getUniformLocation } from '../../../location';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
@@ -88,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const translate = (
   gl: WebGLRenderingContext,
-  glProgram: WebGLProgram,
+  getUniformLocation: (variableName: string) => WebGLUniformLocation,
   translateX: number,
   translateY: number
 ): void => {
@@ -100,17 +99,13 @@ const translate = (
            0.0,        0.0, 1.0, 0.0,
     translateX, translateY, 0.0, 1.0
  ]);
-  const u_translation_matrix = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_translation_matrix',
-  });
+  const u_translation_matrix = getUniformLocation('u_translation_matrix');
   gl.uniformMatrix4fv(u_translation_matrix, false, translationMatrix);
 };
 
 const rotate = (
   gl: WebGLRenderingContext,
-  glProgram: WebGLProgram,
+  getUniformLocation: (variableName: string) => WebGLUniformLocation,
   angle: number
 ): void => {
   const radian = (Math.PI * angle) / 180.0;
@@ -124,17 +119,13 @@ const rotate = (
      0.0,  0.0, 1.0, 0.0,
      0.0,  0.0, 0.0, 1.0
  ]);
-  const u_rotation_matrix = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_rotation_matrix',
-  });
+  const u_rotation_matrix = getUniformLocation('u_rotation_matrix');
   gl.uniformMatrix4fv(u_rotation_matrix, false, rotationMatrix);
 };
 
 const scale = (
   gl: WebGLRenderingContext,
-  glProgram: WebGLProgram,
+  getUniformLocation: (variableName: string) => WebGLUniformLocation,
   scaleX: number,
   scaleY: number
 ): void => {
@@ -146,16 +137,19 @@ const scale = (
        0.0,    0.0, 0.0, 0.0,
        0.0,    0.0, 0.0, 1.0
  ]);
-  const u_scale_matrix = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_scale_matrix',
-  });
+  const u_scale_matrix = getUniformLocation('u_scale_matrix');
   gl.uniformMatrix4fv(u_scale_matrix, false, scaleMatrix);
 };
 
-const drawWithParams = ({ drawing, translateX, translateY, angle, scaleX, scaleY }: Params) => {
-  const { gl, glProgram } = initWebGl({
+const drawWithParams = ({
+  drawing,
+  translateX,
+  translateY,
+  angle,
+  scaleX,
+  scaleY,
+}: Params) => {
+  const { gl, getAttribLocation, getUniformLocation } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
@@ -173,17 +167,13 @@ const drawWithParams = ({ drawing, translateX, translateY, angle, scaleX, scaleY
   ]);
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-  const a_Position = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Position',
-  });
+  const a_Position = getAttribLocation('a_Position');
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(a_Position);
 
-  translate(gl, glProgram, translateX, translateY);
-  rotate(gl, glProgram, angle);
-  scale(gl, glProgram, scaleX, scaleY);
+  translate(gl, getUniformLocation, translateX, translateY);
+  rotate(gl, getUniformLocation, angle);
+  scale(gl, getUniformLocation, scaleX, scaleY);
 
   gl.clearColor(0, 0, 0, 1);
   gl.clear(gl.COLOR_BUFFER_BIT);

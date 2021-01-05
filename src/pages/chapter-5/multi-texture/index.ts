@@ -4,13 +4,12 @@ import skyImage from '../../../../resources/img/sky.jpg';
 import circleImage from '../../../../resources/img/circle.gif';
 
 import { initWebGl } from '../../../init-web-gl';
-import { getAttribLocation, getUniformLocation } from '../../../location';
 import { loadImage } from '../../../load-image';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const { gl, glProgram } = initWebGl({
+  const { gl, getAttribLocation, getUniformLocation } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
@@ -31,19 +30,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   gl.bindBuffer(gl.ARRAY_BUFFER, verticesAndTextureBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, verticesAndTextureCoordinates, gl.STATIC_DRAW);
 
-  const a_Position = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Position',
-  });
+  const a_Position = getAttribLocation('a_Position');
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, FSIZE * 4, 0);
   gl.enableVertexAttribArray(a_Position);
 
-  const a_TexCoord = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_TexCoord',
-  });
+  const a_TexCoord = getAttribLocation('a_TexCoord');
   gl.vertexAttribPointer(a_TexCoord, 2, gl.FLOAT, false, FSIZE * 4, FSIZE * 2);
   gl.enableVertexAttribArray(a_TexCoord);
 
@@ -52,16 +43,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!texture0 || !texture1) {
     throw new Error('Failed to create the texture object');
   }
-  const u_Sampler0 = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_Sampler0',
-  });
-  const u_Sampler1 = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_Sampler1',
-  });
+  const u_Sampler0 = getUniformLocation('u_Sampler0');
+  const u_Sampler1 = getUniformLocation('u_Sampler1');
 
   const [image0, image1] = await Promise.all([
     loadImage(skyImage),

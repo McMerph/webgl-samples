@@ -1,12 +1,11 @@
 import 'normalize.css';
 
 import { initWebGl } from '../../../init-web-gl';
-import { getAttribLocation } from '../../../location';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const { gl, glProgram } = initWebGl({
+  const { gl, getAttribLocation } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
@@ -25,20 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
   gl.bindBuffer(gl.ARRAY_BUFFER, verticesAndColorsBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, verticesAndColors, gl.STATIC_DRAW);
 
-  const a_Position = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Position',
-  });
+  const a_Position = getAttribLocation('a_Position');
   const FSIZE = verticesAndColors.BYTES_PER_ELEMENT;
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, FSIZE * 5, 0);
   gl.enableVertexAttribArray(a_Position);
 
-  const a_Color = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Color',
-  });
+  const a_Color = getAttribLocation('a_Color');
   gl.vertexAttribPointer(a_Color, 3, gl.FLOAT, false, FSIZE * 5, FSIZE * 2);
   gl.enableVertexAttribArray(a_Color);
 

@@ -1,12 +1,11 @@
 import 'normalize.css';
 
 import { initWebGl } from '../../../init-web-gl';
-import { getAttribLocation, getUniformLocation } from '../../../location';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const { gl, glProgram } = initWebGl({
+  const { gl, getAttribLocation, getUniformLocation } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
@@ -25,25 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
   gl.bindBuffer(gl.ARRAY_BUFFER, verticesBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
-  const a_Position = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Position',
-  });
+  const a_Position = getAttribLocation('a_Position');
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
 
-  const u_Width = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_Width',
-  });
+  const u_Width = getUniformLocation('u_Width');
   gl.uniform1f(u_Width, gl.drawingBufferWidth);
 
-  const u_Height = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_Height',
-  });
+  const u_Height = getUniformLocation('u_Height');
   gl.uniform1f(u_Height, gl.drawingBufferHeight);
 
   gl.enableVertexAttribArray(a_Position);

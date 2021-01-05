@@ -1,4 +1,5 @@
 import { initShaders } from './init-shaders';
+import { getAttribLocation, getUniformLocation } from './location';
 
 interface InitWebGlArgs {
   vertexShaderSource: string;
@@ -8,6 +9,8 @@ interface InitWebGlOutput {
   canvas: HTMLCanvasElement;
   gl: WebGLRenderingContext;
   glProgram: WebGLProgram;
+  getAttribLocation: (variableName: string) => GLint;
+  getUniformLocation: (variableName: string) => WebGLUniformLocation;
 }
 
 export const initWebGl = ({
@@ -30,5 +33,13 @@ export const initWebGl = ({
     fragmentShaderSource,
   });
 
-  return { canvas, gl, glProgram };
+  return {
+    canvas,
+    gl,
+    glProgram,
+    getAttribLocation: (variableName) =>
+      getAttribLocation({ gl, glProgram, variableName }),
+    getUniformLocation: (variableName) =>
+      getUniformLocation({ gl, glProgram, variableName }),
+  };
 };

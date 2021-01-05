@@ -1,7 +1,6 @@
 import 'normalize.css';
 
 import { initWebGl } from '../../../init-web-gl';
-import { getAttribLocation } from '../../../location';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
@@ -9,16 +8,11 @@ const points: [number, number][] = [];
 let draw = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-  const { canvas, gl, glProgram } = initWebGl({
+  const { canvas, gl, getAttribLocation } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
-
-  const a_Position = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Position',
-  });
+  const a_Position = getAttribLocation('a_Position');
 
   canvas.onmousedown = () => {
     draw = true;

@@ -1,12 +1,11 @@
 import 'normalize.css';
 
 import { initWebGl } from '../../../init-web-gl';
-import { getAttribLocation } from '../../../location';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const { gl, glProgram } = initWebGl({
+  const { gl, getAttribLocation } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
@@ -25,20 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
   gl.bindBuffer(gl.ARRAY_BUFFER, verticesAndSizesBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, verticesAndSizes, gl.STATIC_DRAW);
 
-  const a_Position = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Position',
-  });
+  const a_Position = getAttribLocation('a_Position');
   const FSIZE = verticesAndSizes.BYTES_PER_ELEMENT;
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, FSIZE * 3, 0);
   gl.enableVertexAttribArray(a_Position);
 
-  const a_PointSize = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_PointSize',
-  });
+  const a_PointSize = getAttribLocation('a_PointSize');
   gl.vertexAttribPointer(a_PointSize, 1, gl.FLOAT, false, FSIZE * 3, FSIZE * 2);
   gl.enableVertexAttribArray(a_PointSize);
 

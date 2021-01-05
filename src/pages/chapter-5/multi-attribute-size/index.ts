@@ -1,12 +1,11 @@
 import 'normalize.css';
 
 import { initWebGl } from '../../../init-web-gl';
-import { getAttribLocation } from '../../../location';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const { gl, glProgram } = initWebGl({
+  const { gl, getAttribLocation } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
@@ -17,9 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     -0.5, -0.5,
     0.5,  -0.5
   ]);
-  const sizes = new Float32Array([
-    10.0, 20.0, 30.0
-  ]);
+  const sizes = new Float32Array([10.0, 20.0, 30.0]);
 
   const vertexBuffer = gl.createBuffer();
   if (!vertexBuffer) {
@@ -27,11 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-  const a_Position = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Position',
-  });
+  const a_Position = getAttribLocation('a_Position');
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(a_Position);
 
@@ -41,11 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   gl.bindBuffer(gl.ARRAY_BUFFER, sizeBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, sizes, gl.STATIC_DRAW);
-  const a_PointSize = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_PointSize',
-  });
+  const a_PointSize = getAttribLocation('a_PointSize');
   gl.vertexAttribPointer(a_PointSize, 1, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(a_PointSize);
 

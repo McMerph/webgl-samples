@@ -1,7 +1,6 @@
 import 'normalize.css';
 
 import { initWebGl } from '../../../init-web-gl';
-import { getAttribLocation, getUniformLocation } from '../../../location';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
@@ -19,21 +18,12 @@ const getColor = (x: number, y: number): [number, number, number, number] => {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  const { canvas, gl, glProgram } = initWebGl({
+  const { canvas, gl, getAttribLocation, getUniformLocation } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
-
-  const a_Position = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Position',
-  });
-  const u_FragColor = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_FragColor',
-  });
+  const a_Position = getAttribLocation('a_Position');
+  const u_FragColor = getUniformLocation('u_FragColor');
 
   canvas.onmousedown = () => {
     draw = true;

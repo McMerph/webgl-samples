@@ -4,7 +4,6 @@ import './index.css';
 import { Matrix4 } from 'matrix4';
 
 import { initWebGl } from '../../../init-web-gl';
-import { getAttribLocation, getUniformLocation } from '../../../location';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
@@ -96,7 +95,7 @@ const drawWithParams = ({
   scaleX,
   scaleY,
 }: Params) => {
-  const { gl, glProgram } = initWebGl({
+  const { gl, getAttribLocation, getUniformLocation } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
@@ -114,11 +113,7 @@ const drawWithParams = ({
   ]);
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-  const a_Position = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Position',
-  });
+  const a_Position = getAttribLocation('a_Position');
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(a_Position);
 
@@ -126,11 +121,7 @@ const drawWithParams = ({
   matrix4.setRotate(angle, 0, 0, 1);
   matrix4.scale(scaleX, scaleY, 0);
   matrix4.translate(translateX, translateY, 0);
-  const u_matrix = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_matrix',
-  });
+  const u_matrix = getUniformLocation('u_matrix');
   gl.uniformMatrix4fv(u_matrix, false, matrix4.elements);
 
   gl.clearColor(0, 0, 0, 1);

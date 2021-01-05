@@ -4,7 +4,6 @@ import './index.css';
 import { Matrix4 } from 'matrix4';
 
 import { initWebGl } from '../../../init-web-gl';
-import { getAttribLocation, getUniformLocation } from '../../../location';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
@@ -17,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const raw = Number.parseInt(speedInput.value) || 0;
     return Math.max(0, raw);
   };
-  const { gl, glProgram } = initWebGl({
+  const { gl, getAttribLocation, getUniformLocation } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
@@ -34,19 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
     ]);
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-  const a_Position = getAttribLocation({
-    gl,
-    glProgram,
-    variableName: 'a_Position',
-  });
+  const a_Position = getAttribLocation('a_Position');
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(a_Position);
 
-  const u_matrix = getUniformLocation({
-    gl,
-    glProgram,
-    variableName: 'u_matrix',
-  });
+  const u_matrix = getUniformLocation('u_matrix');
   animate(getSpeed, gl, u_matrix);
 });
 
