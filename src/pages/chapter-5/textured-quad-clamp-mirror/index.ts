@@ -3,6 +3,7 @@ import 'normalize.css';
 import skyImage from '../../../../resources/img/sky.jpg'
 
 import initShaders from '../../../init-shaders';
+import loadImage from '../../../load-image'
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 
@@ -47,18 +48,6 @@ const getUniformLocation = (args: GetLocationArgs): WebGLUniformLocation => {
 
   return location;
 }
-
-const loadImage = (src: string): Promise<HTMLImageElement> => new Promise((resolve, reject) => {
-  const image = new Image();
-  image.onload = () => {
-    resolve(image)
-  };
-  image.onerror = () => {
-    reject(`Can't load ${src}`)
-  }
-
-  image.src = src;
-})
 
 document.addEventListener('DOMContentLoaded', async () => {
   const { gl, glProgram } = init()
