@@ -9,6 +9,29 @@ declare module 'matrix4' {
     rotate(angle: number, x: number, y: number, z: number): void;
     scale(x: number, y: number, z: number): void;
 
+    setLookAt(
+      eyeX: number,
+      eyeY: number,
+      eyeZ: number,
+      centerX: number,
+      centerY: number,
+      centerZ: number,
+      upX: number,
+      upY: number,
+      upZ: number
+    ): void;
+    lookAt(
+      eyeX: number,
+      eyeY: number,
+      eyeZ: number,
+      centerX: number,
+      centerY: number,
+      centerZ: number,
+      upX: number,
+      upY: number,
+      upZ: number
+    ): void;
+
     elements: Float32Array;
   }
 }
