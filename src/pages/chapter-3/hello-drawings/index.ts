@@ -1,7 +1,7 @@
 import 'normalize.css';
 import './index.css';
 
-import initShaders from '../../../init-shaders';
+import { initShaders } from '../../../init-shaders';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 

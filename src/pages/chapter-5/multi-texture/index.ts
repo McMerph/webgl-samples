@@ -5,7 +5,7 @@ import circleImage from '../../../../resources/img/circle.gif';
 
 import { initWebGl } from '../../../init-web-gl';
 import { getAttribLocation, getUniformLocation } from '../../../location';
-import loadImage from '../../../load-image';
+import { loadImage } from '../../../load-image';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 

@@ -28,7 +28,8 @@ interface InitShaderArgs {
   vertexShaderSource: string;
   fragmentShaderSource: string;
 }
-const initShaders = (args: InitShaderArgs): WebGLProgram => {
+
+export const initShaders = (args: InitShaderArgs): WebGLProgram => {
   const { gl, vertexShaderSource, fragmentShaderSource } = args;
   const [vertexShader, fragmentShader] = ([
     [gl.VERTEX_SHADER, vertexShaderSource],
@@ -57,5 +58,3 @@ const initShaders = (args: InitShaderArgs): WebGLProgram => {
 
   return program;
 };
-
-export default initShaders;

@@ -3,7 +3,7 @@ import './index.css';
 
 import { Matrix4 } from 'matrix4';
 
-import initShaders from '../../../init-shaders';
+import { initShaders } from '../../../init-shaders';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 

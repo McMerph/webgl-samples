@@ -4,7 +4,7 @@ import skyImage from '../../../../resources/img/sky.jpg'
 
 import { initWebGl } from '../../../init-web-gl';
 import { getAttribLocation, getUniformLocation } from '../../../location';
-import loadImage from '../../../load-image'
+import { loadImage } from '../../../load-image'
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 

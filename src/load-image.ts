@@ -1,4 +1,4 @@
-const loadImage = (src: string): Promise<HTMLImageElement> => new Promise((resolve, reject) => {
+export const loadImage = (src: string): Promise<HTMLImageElement> => new Promise((resolve, reject) => {
     const image = new Image();
     image.onload = () => {
         resolve(image)
@@ -10,5 +10,3 @@ const loadImage = (src: string): Promise<HTMLImageElement> => new Promise((resol
 
     image.src = src;
 })
-
-export default loadImage

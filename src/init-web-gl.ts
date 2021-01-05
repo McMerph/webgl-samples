@@ -1,4 +1,4 @@
-import initShaders from './init-shaders';
+import { initShaders } from './init-shaders';
 
 interface InitWebGlArgs {
   vertexShaderSource: string;
