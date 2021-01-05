@@ -2,7 +2,7 @@ import 'normalize.css';
 import './index.css';
 
 import { initShaders } from '../../../init-shaders';
-import { getAttribLocation } from '../../../location';
+import { getAttribLocation, getUniformLocation } from '../../../location';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 
@@ -100,15 +100,11 @@ const translate = (
            0.0,        0.0, 1.0, 0.0,
     translateX, translateY, 0.0, 1.0
  ]);
-  const u_translation_matrix = gl.getUniformLocation(
+  const u_translation_matrix = getUniformLocation({
+    gl,
     glProgram,
-    'u_translation_matrix'
-  );
-  if (!u_translation_matrix) {
-    throw new Error(
-      'Failed to get the storage location of u_translation_matrix'
-    );
-  }
+    variableName: 'u_translation_matrix',
+  });
   gl.uniformMatrix4fv(u_translation_matrix, false, translationMatrix);
 };
 
@@ -128,13 +124,11 @@ const rotate = (
      0.0,  0.0, 1.0, 0.0,
      0.0,  0.0, 0.0, 1.0
  ]);
-  const u_rotation_matrix = gl.getUniformLocation(
+  const u_rotation_matrix = getUniformLocation({
+    gl,
     glProgram,
-    'u_rotation_matrix'
-  );
-  if (!u_rotation_matrix) {
-    throw new Error('Failed to get the storage location of u_rotation_matrix');
-  }
+    variableName: 'u_rotation_matrix',
+  });
   gl.uniformMatrix4fv(u_rotation_matrix, false, rotationMatrix);
 };
 
@@ -152,10 +146,11 @@ const scale = (
        0.0,    0.0, 0.0, 0.0,
        0.0,    0.0, 0.0, 1.0
  ]);
-  const u_scale_matrix = gl.getUniformLocation(glProgram, 'u_scale_matrix');
-  if (!u_scale_matrix) {
-    throw new Error('Failed to get the storage location of u_scale_matrix');
-  }
+  const u_scale_matrix = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_scale_matrix',
+  });
   gl.uniformMatrix4fv(u_scale_matrix, false, scaleMatrix);
 };
 

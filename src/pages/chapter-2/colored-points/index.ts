@@ -1,7 +1,7 @@
 import 'normalize.css';
 
 import { initShaders } from '../../../init-shaders';
-import { getAttribLocation } from '../../../location';
+import { getAttribLocation, getUniformLocation } from '../../../location';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 
@@ -40,10 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
     glProgram,
     variableName: 'a_Position',
   });
-  const u_FragColor = gl.getUniformLocation(glProgram, 'u_FragColor');
-  if (u_FragColor === null) {
-    throw new Error('Failed to get the storage location of u_FragColor');
-  }
+  const u_FragColor = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_FragColor',
+  });
 
   canvas.onmousedown = () => {
     draw = true;

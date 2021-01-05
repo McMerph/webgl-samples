@@ -1,7 +1,7 @@
 import 'normalize.css';
 
 import { initShaders } from '../../../init-shaders';
-import { getAttribLocation } from '../../../location';
+import { getAttribLocation, getUniformLocation } from '../../../location';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 
@@ -43,16 +43,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
 
-  const u_Width = gl.getUniformLocation(glProgram, 'u_Width');
-  if (!u_Width) {
-    throw new Error('Failed to get the storage location of u_Width');
-  }
+  const u_Width = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_Width',
+  });
   gl.uniform1f(u_Width, gl.drawingBufferWidth);
 
-  const u_Height = gl.getUniformLocation(glProgram, 'u_Height');
-  if (!u_Height) {
-    throw new Error('Failed to get the storage location of u_Height');
-  }
+  const u_Height = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_Height',
+  });
   gl.uniform1f(u_Height, gl.drawingBufferHeight);
 
   gl.enableVertexAttribArray(a_Position);

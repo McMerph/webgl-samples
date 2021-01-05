@@ -4,7 +4,7 @@ import './index.css';
 import { Matrix4 } from 'matrix4';
 
 import { initShaders } from '../../../init-shaders';
-import { getAttribLocation } from '../../../location';
+import { getAttribLocation, getUniformLocation } from '../../../location';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 
@@ -131,10 +131,11 @@ const drawWithParams = (params: Params) => {
   matrix4.setRotate(angle, 0, 0, 1);
   matrix4.scale(scaleX, scaleY, 0);
   matrix4.translate(translateX, translateY, 0);
-  const u_matrix = gl.getUniformLocation(glProgram, 'u_matrix');
-  if (!u_matrix) {
-    throw new Error('Failed to get the storage location of u_matrix');
-  }
+  const u_matrix = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_matrix',
+  });
   gl.uniformMatrix4fv(u_matrix, false, matrix4.elements);
 
   gl.clearColor(0, 0, 0, 1);

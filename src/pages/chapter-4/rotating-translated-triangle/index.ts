@@ -4,7 +4,7 @@ import './index.css';
 import { Matrix4 } from 'matrix4';
 
 import { initShaders } from '../../../init-shaders';
-import { getAttribLocation } from '../../../location';
+import { getAttribLocation, getUniformLocation } from '../../../location';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 
@@ -53,10 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(a_Position);
 
-  const u_matrix = gl.getUniformLocation(glProgram, 'u_matrix');
-  if (!u_matrix) {
-    throw new Error('Failed to get the storage location of u_matrix');
-  }
+  const u_matrix = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_matrix',
+  });
   animate(getSpeed, gl, u_matrix);
 });
 

@@ -2,7 +2,7 @@ import 'normalize.css';
 import './index.css';
 
 import { initShaders } from '../../../init-shaders';
-import { getAttribLocation } from '../../../location';
+import { getAttribLocation, getUniformLocation } from '../../../location';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 
@@ -68,10 +68,11 @@ const translate = (
   translateX: number,
   translateY: number
 ): void => {
-  const u_Translation = gl.getUniformLocation(glProgram, 'u_Translation');
-  if (u_Translation === null) {
-    throw new Error('Failed to get the storage location of u_Translation');
-  }
+  const u_Translation = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_Translation',
+  });
   gl.uniform4f(u_Translation, translateX, translateY, 0.0, 0.0);
 };
 
@@ -83,11 +84,16 @@ const rotate = (
   const radian = (Math.PI * angle) / 180.0;
   const cosB = Math.cos(radian);
   const sinB = Math.sin(radian);
-  const u_CosB = gl.getUniformLocation(glProgram, 'u_CosB');
-  const u_SinB = gl.getUniformLocation(glProgram, 'u_SinB');
-  if (u_CosB === null || u_SinB === null) {
-    throw new Error('Failed to get the storage location of u_CosB or u_SinB');
-  }
+  const u_CosB = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_CosB',
+  });
+  const u_SinB = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_SinB',
+  });
   gl.uniform1f(u_CosB, cosB);
   gl.uniform1f(u_SinB, sinB);
 };
