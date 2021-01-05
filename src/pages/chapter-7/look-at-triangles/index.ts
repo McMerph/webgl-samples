@@ -2,27 +2,9 @@ import 'normalize.css';
 
 import { Matrix4 } from 'matrix4';
 
-import initShaders from '../../../init-shaders';
+import { initWebGl } from '../../../init-web-gl';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
-
-const init = () => {
-  const canvas = document.getElementById('webgl') as HTMLCanvasElement;
-  if (!canvas) {
-    throw new Error('Failed to retrieve the <canvas> element');
-  }
-  const gl = canvas.getContext('webgl');
-  if (!gl) {
-    throw new Error('Failed to get the rendering context for WebGL');
-  }
-  const glProgram = initShaders({
-    gl,
-    vertexShaderSource: VSHADER_SOURCE,
-    fragmentShaderSource: FSHADER_SOURCE,
-  });
-
-  return { gl, glProgram };
-};
 
 interface GetLocationArgs {
   gl: WebGLRenderingContext;
@@ -49,7 +31,10 @@ const getUniformLocation = (args: GetLocationArgs): WebGLUniformLocation => {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const { gl, glProgram } = init();
+  const { gl, glProgram } = initWebGl({
+    vertexShaderSource: VSHADER_SOURCE,
+    fragmentShaderSource: FSHADER_SOURCE,
+  });
 
   // prettier-ignore
   const verticesAndColors = new Float32Array([
@@ -96,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
   const matrix4 = new Matrix4();
-  matrix4.setLookAt(0.20, 0.25, 0.25, 0, 0, 0, 0, 1, 0);
+  matrix4.setLookAt(0.2, 0.25, 0.25, 0, 0, 0, 0, 1, 0);
   const u_ViewMatrix = getUniformLocation({
     gl,
     glProgram,

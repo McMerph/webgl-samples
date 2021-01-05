@@ -3,28 +3,10 @@ import 'normalize.css';
 import skyImage from '../../../../resources/img/sky.jpg'
 import circleImage from '../../../../resources/img/circle.gif'
 
-import initShaders from '../../../init-shaders';
+import { initWebGl } from '../../../init-web-gl';
 import loadImage from '../../../load-image'
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
-
-const init = () => {
-  const canvas = document.getElementById('webgl') as HTMLCanvasElement;
-  if (!canvas) {
-    throw new Error('Failed to retrieve the <canvas> element');
-  }
-  const gl = canvas.getContext('webgl');
-  if (!gl) {
-    throw new Error('Failed to get the rendering context for WebGL');
-  }
-  const glProgram = initShaders({
-    gl,
-    vertexShaderSource: VSHADER_SOURCE,
-    fragmentShaderSource: FSHADER_SOURCE,
-  });
-
-  return { gl, glProgram }
-}
 
 interface GetLocationArgs {
   gl: WebGLRenderingContext;
@@ -51,7 +33,10 @@ const getUniformLocation = (args: GetLocationArgs): WebGLUniformLocation => {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const { gl, glProgram } = init()
+  const { gl, glProgram } = initWebGl({
+    vertexShaderSource: VSHADER_SOURCE,
+    fragmentShaderSource: FSHADER_SOURCE,
+  });
 
   // prettier-ignore
   const verticesAndTextureCoordinates = new Float32Array([
