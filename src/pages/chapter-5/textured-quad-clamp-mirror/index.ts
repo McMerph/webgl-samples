@@ -5,13 +5,13 @@ import skyImage from '../../../../resources/img/sky.jpg'
 import { initWebGl } from '../../../init-web-gl';
 import { getAttribLocation, getUniformLocation } from '../../../location';
 import { loadImage } from '../../../load-image'
-import VSHADER_SOURCE from './vert.glsl';
-import FSHADER_SOURCE from './frag.glsl';
+import vertexShaderSource from './vert.glsl';
+import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const { gl, glProgram } = initWebGl({
-    vertexShaderSource: VSHADER_SOURCE,
-    fragmentShaderSource: FSHADER_SOURCE,
+    vertexShaderSource,
+    fragmentShaderSource,
   });
 
   // prettier-ignore

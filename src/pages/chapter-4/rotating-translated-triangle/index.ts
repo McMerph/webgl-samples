@@ -5,8 +5,8 @@ import { Matrix4 } from 'matrix4';
 
 import { initWebGl } from '../../../init-web-gl';
 import { getAttribLocation, getUniformLocation } from '../../../location';
-import VSHADER_SOURCE from './vert.glsl';
-import FSHADER_SOURCE from './frag.glsl';
+import vertexShaderSource from './vert.glsl';
+import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', () => {
   const speedInput = document.getElementById('angle') as HTMLInputElement;
@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     return Math.max(0, raw);
   };
   const { gl, glProgram } = initWebGl({
-    vertexShaderSource: VSHADER_SOURCE,
-    fragmentShaderSource: FSHADER_SOURCE,
+    vertexShaderSource,
+    fragmentShaderSource,
   });
 
   const vertexBuffer = gl.createBuffer();

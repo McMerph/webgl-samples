@@ -2,13 +2,13 @@ import 'normalize.css';
 
 import { initWebGl } from '../../../init-web-gl';
 import { getAttribLocation, getUniformLocation } from '../../../location';
-import VSHADER_SOURCE from './vert.glsl';
-import FSHADER_SOURCE from './frag.glsl';
+import vertexShaderSource from './vert.glsl';
+import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', () => {
   const { gl, glProgram } = initWebGl({
-    vertexShaderSource: VSHADER_SOURCE,
-    fragmentShaderSource: FSHADER_SOURCE,
+    vertexShaderSource,
+    fragmentShaderSource,
   });
 
   // prettier-ignore

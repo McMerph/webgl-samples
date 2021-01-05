@@ -3,8 +3,8 @@ import './index.css';
 
 import { initWebGl } from '../../../init-web-gl';
 import { getAttribLocation, getUniformLocation } from '../../../location';
-import VSHADER_SOURCE from './vert.glsl';
-import FSHADER_SOURCE from './frag.glsl';
+import vertexShaderSource from './vert.glsl';
+import fragmentShaderSource from './frag.glsl';
 
 interface Params {
   drawing: string;
@@ -156,8 +156,8 @@ const scale = (
 
 const drawWithParams = ({ drawing, translateX, translateY, angle, scaleX, scaleY }: Params) => {
   const { gl, glProgram } = initWebGl({
-    vertexShaderSource: VSHADER_SOURCE,
-    fragmentShaderSource: FSHADER_SOURCE,
+    vertexShaderSource,
+    fragmentShaderSource,
   });
 
   const vertexBuffer = gl.createBuffer();

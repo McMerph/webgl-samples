@@ -1,17 +1,17 @@
 import 'normalize.css';
 
-import skyImage from '../../../../resources/img/sky.jpg'
+import skyImage from '../../../../resources/img/sky.jpg';
 
 import { initWebGl } from '../../../init-web-gl';
 import { getAttribLocation, getUniformLocation } from '../../../location';
-import { loadImage } from '../../../load-image'
-import VSHADER_SOURCE from './vert.glsl';
-import FSHADER_SOURCE from './frag.glsl';
+import { loadImage } from '../../../load-image';
+import vertexShaderSource from './vert.glsl';
+import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const { gl, glProgram } = initWebGl({
-    vertexShaderSource: VSHADER_SOURCE,
-    fragmentShaderSource: FSHADER_SOURCE,
+    vertexShaderSource,
+    fragmentShaderSource,
   });
 
   // prettier-ignore
@@ -30,11 +30,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   gl.bindBuffer(gl.ARRAY_BUFFER, verticesAndTextureBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, verticesAndTextureCoordinates, gl.STATIC_DRAW);
 
-  const a_Position = getAttribLocation({ gl, glProgram, variableName: 'a_Position' });
+  const a_Position = getAttribLocation({
+    gl,
+    glProgram,
+    variableName: 'a_Position',
+  });
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, FSIZE * 4, 0);
   gl.enableVertexAttribArray(a_Position);
 
-  const a_TexCoord = getAttribLocation({ gl, glProgram, variableName: 'a_TexCoord' });
+  const a_TexCoord = getAttribLocation({
+    gl,
+    glProgram,
+    variableName: 'a_TexCoord',
+  });
   gl.vertexAttribPointer(a_TexCoord, 2, gl.FLOAT, false, FSIZE * 4, FSIZE * 2);
   gl.enableVertexAttribArray(a_TexCoord);
 
@@ -42,9 +50,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!texture) {
     throw new Error('Failed to create the texture object');
   }
-  const u_Sampler = getUniformLocation({ gl, glProgram, variableName: 'u_Sampler' });
+  const u_Sampler = getUniformLocation({
+    gl,
+    glProgram,
+    variableName: 'u_Sampler',
+  });
 
-  const image = await loadImage(skyImage)
+  const image = await loadImage(skyImage);
   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
   gl.activeTexture(gl.TEXTURE0);
   gl.bindTexture(gl.TEXTURE_2D, texture);

@@ -2,8 +2,8 @@ import 'normalize.css';
 
 import { initWebGl } from '../../../init-web-gl';
 import { getAttribLocation, getUniformLocation } from '../../../location';
-import VSHADER_SOURCE from './vert.glsl';
-import FSHADER_SOURCE from './frag.glsl';
+import vertexShaderSource from './vert.glsl';
+import fragmentShaderSource from './frag.glsl';
 
 const points: [number, number, number, number, number, number][] = [];
 let draw = false;
@@ -20,8 +20,8 @@ const getColor = (x: number, y: number): [number, number, number, number] => {
 
 document.addEventListener('DOMContentLoaded', () => {
   const { canvas, gl, glProgram } = initWebGl({
-    vertexShaderSource: VSHADER_SOURCE,
-    fragmentShaderSource: FSHADER_SOURCE,
+    vertexShaderSource,
+    fragmentShaderSource,
   });
 
   const a_Position = getAttribLocation({
