@@ -3,7 +3,7 @@ import './index.css';
 
 import { Matrix4 } from 'matrix4';
 
-import { initShaders } from '../../../init-shaders';
+import { initWebGl } from '../../../init-web-gl';
 import { getAttribLocation, getUniformLocation } from '../../../location';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
@@ -17,18 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const raw = Number.parseInt(speedInput.value) || 0;
     return Math.max(0, raw);
   };
-  const canvas = document.getElementById('webgl') as HTMLCanvasElement;
-  if (!canvas) {
-    throw new Error('Failed to retrieve the <canvas> element');
-  }
-
-  const gl = canvas.getContext('webgl');
-  if (!gl) {
-    throw new Error('Failed to get the rendering context for WebGL');
-  }
-
-  const glProgram = initShaders({
-    gl,
+  const { gl, glProgram } = initWebGl({
     vertexShaderSource: VSHADER_SOURCE,
     fragmentShaderSource: FSHADER_SOURCE,
   });

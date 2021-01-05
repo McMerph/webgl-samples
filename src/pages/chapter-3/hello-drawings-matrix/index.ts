@@ -1,7 +1,7 @@
 import 'normalize.css';
 import './index.css';
 
-import { initShaders } from '../../../init-shaders';
+import { initWebGl } from '../../../init-web-gl';
 import { getAttribLocation, getUniformLocation } from '../../../location';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
@@ -154,20 +154,8 @@ const scale = (
   gl.uniformMatrix4fv(u_scale_matrix, false, scaleMatrix);
 };
 
-const drawWithParams = (params: Params) => {
-  const { drawing, translateX, translateY, angle, scaleX, scaleY } = params;
-  const canvas = document.getElementById('webgl') as HTMLCanvasElement;
-  if (!canvas) {
-    throw new Error('Failed to retrieve the <canvas> element');
-  }
-
-  const gl = canvas.getContext('webgl');
-  if (!gl) {
-    throw new Error('Failed to get the rendering context for WebGL');
-  }
-
-  const glProgram = initShaders({
-    gl,
+const drawWithParams = ({ drawing, translateX, translateY, angle, scaleX, scaleY }: Params) => {
+  const { gl, glProgram } = initWebGl({
     vertexShaderSource: VSHADER_SOURCE,
     fragmentShaderSource: FSHADER_SOURCE,
   });

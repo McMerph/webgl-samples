@@ -1,6 +1,6 @@
 import 'normalize.css';
 
-import { initShaders } from '../../../init-shaders';
+import { initWebGl } from '../../../init-web-gl';
 import { getAttribLocation } from '../../../location';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
@@ -9,18 +9,7 @@ const points: [number, number][] = [];
 let draw = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-  const canvas = document.getElementById('webgl') as HTMLCanvasElement;
-  if (!canvas) {
-    throw new Error('Failed to retrieve the <canvas> element');
-  }
-
-  const gl = canvas.getContext('webgl');
-  if (!gl) {
-    throw new Error('Failed to get the rendering context for WebGL');
-  }
-
-  const glProgram = initShaders({
-    gl,
+  const { canvas, gl, glProgram } = initWebGl({
     vertexShaderSource: VSHADER_SOURCE,
     fragmentShaderSource: FSHADER_SOURCE,
   });

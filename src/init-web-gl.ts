@@ -5,6 +5,7 @@ interface InitWebGlArgs {
   fragmentShaderSource: string;
 }
 interface InitWebGlOutput {
+  canvas: HTMLCanvasElement;
   gl: WebGLRenderingContext;
   glProgram: WebGLProgram;
 }
@@ -29,5 +30,5 @@ export const initWebGl = ({
     fragmentShaderSource,
   });
 
-  return { gl, glProgram };
+  return { canvas, gl, glProgram };
 };
