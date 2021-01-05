@@ -9,7 +9,7 @@ import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const { gl, getAttribLocation, getUniformLocation } = initWebGl({
+  const { gl, getAttribLocation, getUniformLocation, createBuffer } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
@@ -23,10 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   ]);
   const FSIZE = verticesAndTextureCoordinates.BYTES_PER_ELEMENT;
 
-  const verticesAndTextureBuffer = gl.createBuffer();
-  if (!verticesAndTextureBuffer) {
-    throw new Error('Failed to create the buffer');
-  }
+  const verticesAndTextureBuffer = createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, verticesAndTextureBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, verticesAndTextureCoordinates, gl.STATIC_DRAW);
 

@@ -86,15 +86,13 @@ const rotate = (
 };
 
 const drawWithParams = ({ drawing, translateX, translateY, angle }: Params) => {
-  const { gl, getAttribLocation, getUniformLocation } = initWebGl({
+  const { gl, getAttribLocation, getUniformLocation, createBuffer } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
 
-  const vertexBuffer = gl.createBuffer();
-  if (vertexBuffer === null) {
-    throw new Error('Failed to create the buffer object');
-  }
+  const vertexBuffer = createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   // prettier-ignore
   const vertices = new Float32Array([
     -0.5, 0.5,
@@ -102,7 +100,6 @@ const drawWithParams = ({ drawing, translateX, translateY, angle }: Params) => {
     0.5, 0.5,
     0.5, -0.5,
   ]);
-  gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
   const a_Position = getAttribLocation('a_Position');
   gl.vertexAttribPointer(a_Position, 2, gl.FLOAT, false, 0, 0);

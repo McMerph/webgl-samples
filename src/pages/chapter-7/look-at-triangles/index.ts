@@ -7,10 +7,12 @@ import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const { gl, getAttribLocation, getUniformLocation } = initWebGl({
-    vertexShaderSource: VSHADER_SOURCE,
-    fragmentShaderSource: FSHADER_SOURCE,
-  });
+  const { gl, getAttribLocation, getUniformLocation, createBuffer } = initWebGl(
+    {
+      vertexShaderSource: VSHADER_SOURCE,
+      fragmentShaderSource: FSHADER_SOURCE,
+    }
+  );
 
   // prettier-ignore
   const verticesAndColors = new Float32Array([
@@ -31,10 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   ]);
   const FSIZE = verticesAndColors.BYTES_PER_ELEMENT;
 
-  const verticesAndColorsBuffer = gl.createBuffer();
-  if (!verticesAndColorsBuffer) {
-    throw new Error('Failed to create the buffer');
-  }
+  const verticesAndColorsBuffer = createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, verticesAndColorsBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, verticesAndColors, gl.STATIC_DRAW);
 

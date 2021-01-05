@@ -95,15 +95,12 @@ const drawWithParams = ({
   scaleX,
   scaleY,
 }: Params) => {
-  const { gl, getAttribLocation, getUniformLocation } = initWebGl({
+  const { gl, getAttribLocation, getUniformLocation, createBuffer } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
 
-  const vertexBuffer = gl.createBuffer();
-  if (vertexBuffer === null) {
-    throw new Error('Failed to create the buffer object');
-  }
+  const vertexBuffer = createBuffer();
   // prettier-ignore
   const vertices = new Float32Array([
     -0.5, 0.5,

@@ -5,15 +5,12 @@ import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const { gl, getAttribLocation } = initWebGl({
+  const { gl, getAttribLocation, createBuffer } = initWebGl({
     vertexShaderSource,
     fragmentShaderSource,
   });
 
-  const vertexBuffer = gl.createBuffer();
-  if (vertexBuffer === null) {
-    throw new Error('Failed to create the buffer object');
-  }
+  const vertexBuffer = createBuffer();
   const vertices = new Float32Array([0.0, 0.5, -0.5, -0.5, 0.5, -0.5]);
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
   gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);

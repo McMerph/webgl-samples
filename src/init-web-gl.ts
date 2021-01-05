@@ -11,6 +11,7 @@ interface InitWebGlOutput {
   glProgram: WebGLProgram;
   getAttribLocation: (variableName: string) => GLint;
   getUniformLocation: (variableName: string) => WebGLUniformLocation;
+  createBuffer: () => WebGLBuffer;
 }
 
 export const initWebGl = ({
@@ -41,5 +42,13 @@ export const initWebGl = ({
       getAttribLocation({ gl, glProgram, variableName }),
     getUniformLocation: (variableName) =>
       getUniformLocation({ gl, glProgram, variableName }),
+    createBuffer: () => {
+      const buffer = gl.createBuffer();
+      if (buffer === null) {
+        throw new Error('Failed to create the buffer');
+      }
+
+      return buffer;
+    },
   };
 };
