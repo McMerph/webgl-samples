@@ -1,6 +1,6 @@
 import 'normalize.css';
 
-import { initWebGl } from '../../../init-web-gl';
+import { initWebGl } from '../../../utils/init-web-gl';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 

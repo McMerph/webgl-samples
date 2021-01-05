@@ -3,8 +3,8 @@ import 'normalize.css';
 import skyImage from '../../../../resources/img/sky.jpg';
 import circleImage from '../../../../resources/img/circle.gif';
 
-import { initWebGl } from '../../../init-web-gl';
-import { loadImage } from '../../../load-image';
+import { initWebGl } from '../../../utils/init-web-gl';
+import { loadImage } from '../../../utils/load-image';
 import vertexShaderSource from './vert.glsl';
 import fragmentShaderSource from './frag.glsl';
 

@@ -2,7 +2,7 @@ import 'normalize.css';
 
 import { Matrix4 } from 'matrix4';
 
-import { initWebGl } from '../../../init-web-gl';
+import { initWebGl } from '../../../utils/init-web-gl';
 import VSHADER_SOURCE from './vert.glsl';
 import FSHADER_SOURCE from './frag.glsl';
 
